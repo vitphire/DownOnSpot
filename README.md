@@ -1,11 +1,12 @@
 <div align="center">
 
 # DownOnSpot
-
 ### A Spotify downloader written in Rust
 
 <img src="assets/icon.svg" alt="drawing" width="500"/>
 </div>
+
+[![Build project](https://github.com/oSumAtrIX/DownOnSpot/actions/workflows/rust.yml/badge.svg)](https://github.com/oSumAtrIX/DownOnSpot/actions/workflows/rust.yml)
 
 ## Disclaimer
 
