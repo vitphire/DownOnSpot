@@ -1,5 +1,5 @@
 use aspotify::{
-	Album, Client, ClientCredentials, Playlist, PlaylistItemType, Track, TrackSimplified,
+	Album, Client, ClientCredentials, Playlist, PlaylistItemType, Track, TrackSimplified, Artist
 };
 use librespot::core::authentication::Credentials;
 use librespot::core::config::SessionConfig;
@@ -79,6 +79,10 @@ impl Spotify {
 				let album = self.spotify.albums().get_album(id, None).await?;
 				Ok(SpotifyItem::Album(album.data))
 			}
+			"artist" => {
+				let artist = self.spotify.artists().get_artist(id).await?;
+				Ok(SpotifyItem::Artist(artist.data))
+			}
 			// Unsupported / Unimplemented
 			_ => Ok(SpotifyItem::Other(uri.to_string())),
 		}
@@ -140,7 +144,33 @@ impl Spotify {
 			}
 		}
 	}
+	
+	pub async fn full_artist(&self, id: &str) -> Result<Vec<TrackSimplified>, SpotifyError> {
+		let mut items = vec![];
+		let mut offset = 0;
+		loop {
+			let page = self
+				.spotify
+				.artists()
+				.get_artist_albums(id, None, 50, offset, None)
+				.await?;
+				
+				for album in &mut page
+				.data
+				.items
+				.iter() {
+					items.append(&mut self.full_album(&album.id).await?)
+				}
+			
+			// End
+			offset += page.data.items.len();
+			if page.data.total == offset {
+				return Ok(items);
+			}
+		}
+	}
 }
+
 
 impl Clone for Spotify {
 	fn clone(&self) -> Self {
@@ -163,6 +193,7 @@ pub enum SpotifyItem {
 	Track(Track),
 	Album(Album),
 	Playlist(Playlist),
+	Artist(Artist),
 	/// Unimplemented
 	Other(String),
 }

@@ -74,6 +74,12 @@ impl Downloader {
 				let queue: Vec<Download> = tracks.into_iter().map(|t| t.into()).collect();
 				self.add_to_queue_multiple(queue).await;
 			}
+			SpotifyItem::Artist(a) => {
+				let tracks = self.spotify.full_artist(&a.id).await?;
+				let queue: Vec<Download> = tracks.into_iter().map(|t| t.into()).collect();
+				self.add_to_queue_multiple(queue).await;
+			}
+			
 			// Unsupported
 			SpotifyItem::Other(u) => {
 				error!("Unsupported URI: {}", u);
