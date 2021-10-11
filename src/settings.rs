@@ -35,8 +35,8 @@ impl Settings {
 			refresh_ui_seconds: 1,
 			downloader: DownloaderConfig {
 				concurrent_downloads: 4,
-				quality: QBuuality::Q320,
-				path: Pathf::from("downloads"),
+				quality: Quality::Q320,
+				path: PathBuf::from("downloads"),
 				filename_template: "%artist% - %title%".to_string(),
 				id3v24: true,
 				convert_to_mp3: false,
