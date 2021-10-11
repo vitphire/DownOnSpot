@@ -1,0 +1,24 @@
+on:
+	push:
+		branches: [ main ]
+	pull_request:
+		branches: [ main ]
+
+name: "Build project"
+
+env:
+	CARGO_TERM_COLOR: always
+
+jobs:
+	build_and_test:
+		name: DownOnSpot
+		runs-on: ubuntu-latest
+		
+		steps:
+			- uses: actions/checkout@v2
+			- run: sudo apt install -y libasound2-dev libmp3lame-dev  
+			- uses: actions-rs/toolchain@v1
+				with:
+					override: true
+					toolchain: nightly
+			- run: cargo build --release --all-features

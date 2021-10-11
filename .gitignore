@@ -1,0 +1,4 @@
+/target
+settings.json
+Cargo.lock
+libmp3lame.dll
