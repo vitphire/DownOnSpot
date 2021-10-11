@@ -49,6 +49,12 @@ Usage:
 down_on_spot.exe (track_url | album_url | playlist_url)
 ```
 
+## Known issues
+
+- KDE Konsole specific prints to clear the screen or color the text does not work on windows 
+- Premium account dependancy due to librespot
+- Sometimes downloads slow down
+
 ## Authors
 
 - [@oSumAtrIX](https://osumatrix.me/#github)
