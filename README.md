@@ -10,9 +10,9 @@
 ## Disclaimer
 
 ```text
-DownOnSpot was not developed for piracy, but educational and private usage.
-It may be illegal to use this in your country!
-I am not responsible in any way for the usage of this app.
+DownOnSpot was not developed for piracy.
+It is ment to be used in compliance with DMCA, Section 1201, for educational, private usage and fair use.
+I am not responsible in any way for the usage of the source code.
 ```
 
 ## Features
