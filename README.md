@@ -19,9 +19,10 @@ I am not responsible in any way for the usage of the source code.
 ## Features
 
 - Multi-threaded
-- Download 320 kbit/s audio from spotify, directly
+- Download 96, 160, 256 and 320 kbit/s audio from spotify, directly
 - Download playlists and albums
 - Convert to mp3
+- Metadata tagging
 - Simple usage over CLI
 
 ## Building
