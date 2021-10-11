@@ -147,7 +147,7 @@ async fn start() {
 		println!("Finished download(s) in {} second(s).", time_elapsed);
 	} else {
 		println!(
-			"Usage:\n{} (track_url | album_url | playlist_url)",
+			"Usage:\n{} (track_url | album_url | playlist_url | artist_url )",
 			env::args()
 				.next()
 				.as_ref()

@@ -48,7 +48,7 @@ Settings could not be loaded, because of the following error: IO: NotFound No su
 
 $ down_on_spot.exe
 Usage:
-down_on_spot.exe (track_url | album_url | playlist_url)
+down_on_spot.exe (track_url | album_url | playlist_url | artist_url)
 ```
 
 ## Known issues
