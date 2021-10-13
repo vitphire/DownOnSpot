@@ -1,9 +1,8 @@
 on:
  push:
+  paths:
+    - 'src/**'
   branches: [ main ]
-  paths-ignore:
-   - '**/README.md'
-   - '**/rust.yml'
  pull_request:
   branches: [ main ]
 
