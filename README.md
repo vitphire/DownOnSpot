@@ -51,9 +51,24 @@ Usage:
 down_on_spot.exe (track_url | album_url | playlist_url | artist_url)
 ```
 
+### Template variables
+
+The following variables are available for `path` and `filename_template` in the `settings.json`:
+
+- %0disc%
+- %0track%
+- %album%
+- %albumArtist%
+- %albumArtists%
+- %artist%
+- %disc%
+- %id%
+- %title%
+- %track%
+
 ## Known issues
 
-- KDE Konsole specific prints to clear the screen or color the text does not work on windows 
+- KDE Konsole specific prints to clear the screen or color the text does not work on windows
 - Premium account dependency due to librespot
 - Sometimes downloads slow down
 

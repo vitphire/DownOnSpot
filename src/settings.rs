@@ -1,7 +1,6 @@
 use crate::downloader::DownloaderConfig;
 use crate::downloader::Quality;
 use crate::error::SpotifyError;
-use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
 
 use tokio::{
@@ -36,7 +35,7 @@ impl Settings {
 			downloader: DownloaderConfig {
 				concurrent_downloads: 4,
 				quality: Quality::Q320,
-				path: PathBuf::from("downloads"),
+				path: "downloads".to_string(),
 				filename_template: "%artist% - %title%".to_string(),
 				id3v24: true,
 				convert_to_mp3: false,

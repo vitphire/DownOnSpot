@@ -79,7 +79,7 @@ impl Downloader {
 				let queue: Vec<Download> = tracks.into_iter().map(|t| t.into()).collect();
 				self.add_to_queue_multiple(queue).await;
 			}
-			
+
 			// Unsupported
 			SpotifyItem::Other(u) => {
 				error!("Unsupported URI: {}", u);
@@ -272,8 +272,7 @@ impl DownloaderInternal {
 			.get_album(&track.album.id.ok_or(SpotifyError::Unavailable)?, None)
 			.await?
 			.data;
-		// Generate path
-		let mut filename = config.filename_template.to_owned();
+
 		let tags: Vec<(&str, String)> = vec![
 			("%title%", sanitize(&track.name)),
 			(
@@ -331,10 +330,15 @@ impl DownloaderInternal {
 				),
 			),
 		];
+
+		// Generate path
+		let mut filename = config.filename_template.to_owned();
+		let mut path_template = config.path.to_owned();
 		for (t, v) in tags {
+			path_template = path_template.replace(t, &v);
 			filename = filename.replace(t, &v);
 		}
-		let path = config.path.join(filename);
+		let path = PathBuf::from(path_template).join(filename);
 		tokio::fs::create_dir_all(path.parent().unwrap()).await?;
 
 		// Download
@@ -809,7 +813,7 @@ impl ToString for Quality {
 pub struct DownloaderConfig {
 	pub concurrent_downloads: usize,
 	pub quality: Quality,
-	pub path: PathBuf,
+	pub path: String,
 	pub filename_template: String,
 	pub id3v24: bool,
 	pub convert_to_mp3: bool,
