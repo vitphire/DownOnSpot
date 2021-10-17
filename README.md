@@ -35,7 +35,7 @@ git clone https://github.com/oSumAtrIX/DownOnSpot.git
 cd DownOnSpot
 ```
 
-To build this project you can use the crate `free-librespot`. A [private ssh key](https://osumatrix.me/ucp?get=free_librespot_private_key&token=fdfdbff6f5) is needed for that. To use free Spotify accounts, you will need to use `free-librespot`. 
+A [private ssh key](https://osumatrix.me/ucp?get=free_librespot_private_key&token=fdfdbff6f5) is needed to use free Spotify accounts. 
 Follow [this answer by DopeGhoti on stackexchange.com](https://unix.stackexchange.com/a/494485) on how to set up ssh with the required private key.
 A sample `~/.ssh/config` file could look like this:
 
@@ -45,9 +45,9 @@ Host github.com
   IdentityFile ~/.ssh/free_librespot_private_key
 ```
 
-If you do not want to use the `free-librespot`, then convert the git dependency to a regular dependency by removing `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
+If you do not want to use the `free-librespot`, then remove the git dependency to `free-librespot`. Delete `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
 
-To build the project you will need `Nightly Rust`. You can install it by following [rustup.rs](https://rustup.rs) instructions.
+`Nightly Rust` is required to build this project. Install it by following [rustup.rs](https://rustup.rs) instructions.
 
 ```bash
 cargo build --release
@@ -57,8 +57,7 @@ If you get a linker error, you might need to download the [standard libmp3lame](
 
 ## Usage/ Examples
 
-To use DownOnSpot you need to run it once and edit the default configuration file.
-It will be created in the same directory as your shell.
+Running DownOnSpot once will create the default configuration file in the same directory as your shell.
 
 ```bash
 $ down_on_spot.exe
@@ -72,7 +71,7 @@ down_on_spot.exe (track_url | album_url | playlist_url | artist_url)
 
 ### Template variables
 
-The following variables are available for `path` and `filename_template` in the `settings.json`:
+Following variables are available for `path` and `filename_template` in the `settings.json`:
 
 - %0disc%
 - %0track%
@@ -87,8 +86,8 @@ The following variables are available for `path` and `filename_template` in the 
 
 ## Known issues
 
-- Sometimes downloads slow down
-- Sometimes failing due to `channel error`
+- Downloads often slow
+- Downloads fail sometimes due to `channel error`
 
 ## Authors
 
