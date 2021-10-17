@@ -4,7 +4,7 @@ extern crate log;
 use async_std::{task, task::block_on};
 use colored::{Colorize, control::set_virtual_terminal};
 use downloader::{DownloadState, Downloader};
-use configuration::Configuration;
+use settings::Settings;
 use spotify::Spotify;
 use std::{
 	env,
@@ -16,7 +16,7 @@ use std::{
 mod converter;
 mod downloader;
 mod error;
-mod configuration;
+mod settings;
 mod spotify;
 mod tag;
 
@@ -33,7 +33,7 @@ async fn start() {
 		};
 	}
 
-	let settings = match Configuration::load("settings.json".to_string()).await {
+	let settings = match Settings::load().await {
 		Ok(settings) => {
 			println!(
 				"{} {}.",
@@ -49,8 +49,8 @@ async fn start() {
 				e
 			);
 			let default_settings =
-				Configuration::new("username", "password", "client_id", "secret").unwrap();
-			match default_settings.save("settings.json".to_string()).await {
+			Settings::new("username", "password", "client_id", "secret").unwrap();
+			match default_settings.save().await {
 				Ok(_) => {
 					println!(
 						"{}",

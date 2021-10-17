@@ -1347,7 +1347,7 @@ dependencies = [
 [[package]]
 name = "librespot"
 version = "0.3.0"
-source = "git+https://github.com/oSumAtrIX/free-librespot#19dea7516f71818a64cbded6c5a94065f22677c7"
+source = "git+ssh://git@github.com/oSumAtrIX/free-librespot.git?branch=dev#19dea7516f71818a64cbded6c5a94065f22677c7"
 dependencies = [
  "base64",
  "env_logger",
@@ -1373,7 +1373,7 @@ dependencies = [
 [[package]]
 name = "librespot-audio"
 version = "0.3.0"
-source = "git+https://github.com/oSumAtrIX/free-librespot#19dea7516f71818a64cbded6c5a94065f22677c7"
+source = "git+ssh://git@github.com/oSumAtrIX/free-librespot.git?branch=dev#19dea7516f71818a64cbded6c5a94065f22677c7"
 dependencies = [
  "aes-ctr",
  "byteorder",
@@ -1388,7 +1388,7 @@ dependencies = [
 [[package]]
 name = "librespot-connect"
 version = "0.3.0"
-source = "git+https://github.com/oSumAtrIX/free-librespot#19dea7516f71818a64cbded6c5a94065f22677c7"
+source = "git+ssh://git@github.com/oSumAtrIX/free-librespot.git?branch=dev#19dea7516f71818a64cbded6c5a94065f22677c7"
 dependencies = [
  "form_urlencoded",
  "futures-util",
@@ -1408,7 +1408,7 @@ dependencies = [
 [[package]]
 name = "librespot-core"
 version = "0.3.0"
-source = "git+https://github.com/oSumAtrIX/free-librespot#19dea7516f71818a64cbded6c5a94065f22677c7"
+source = "git+ssh://git@github.com/oSumAtrIX/free-librespot.git?branch=dev#19dea7516f71818a64cbded6c5a94065f22677c7"
 dependencies = [
  "aes",
  "base64",
@@ -1448,7 +1448,7 @@ dependencies = [
 [[package]]
 name = "librespot-discovery"
 version = "0.3.0"
-source = "git+https://github.com/oSumAtrIX/free-librespot#19dea7516f71818a64cbded6c5a94065f22677c7"
+source = "git+ssh://git@github.com/oSumAtrIX/free-librespot.git?branch=dev#19dea7516f71818a64cbded6c5a94065f22677c7"
 dependencies = [
  "aes-ctr",
  "base64",
@@ -1470,7 +1470,7 @@ dependencies = [
 [[package]]
 name = "librespot-metadata"
 version = "0.3.0"
-source = "git+https://github.com/oSumAtrIX/free-librespot#19dea7516f71818a64cbded6c5a94065f22677c7"
+source = "git+ssh://git@github.com/oSumAtrIX/free-librespot.git?branch=dev#19dea7516f71818a64cbded6c5a94065f22677c7"
 dependencies = [
  "async-trait",
  "byteorder",
@@ -1483,7 +1483,7 @@ dependencies = [
 [[package]]
 name = "librespot-playback"
 version = "0.3.0"
-source = "git+https://github.com/oSumAtrIX/free-librespot#19dea7516f71818a64cbded6c5a94065f22677c7"
+source = "git+ssh://git@github.com/oSumAtrIX/free-librespot.git?branch=dev#19dea7516f71818a64cbded6c5a94065f22677c7"
 dependencies = [
  "byteorder",
  "cpal",
@@ -1507,7 +1507,7 @@ dependencies = [
 [[package]]
 name = "librespot-protocol"
 version = "0.3.0"
-source = "git+https://github.com/oSumAtrIX/free-librespot#19dea7516f71818a64cbded6c5a94065f22677c7"
+source = "git+ssh://git@github.com/oSumAtrIX/free-librespot.git?branch=dev#19dea7516f71818a64cbded6c5a94065f22677c7"
 dependencies = [
  "glob",
  "protobuf",
