@@ -1,17 +1,10 @@
 #[macro_use]
 extern crate log;
 
-mod converter;
-mod downloader;
-mod error;
-mod settings;
-mod spotify;
-mod tag;
-
 use async_std::{task, task::block_on};
-use colored::Colorize;
+use colored::{Colorize, control::set_virtual_terminal};
 use downloader::{DownloadState, Downloader};
-use settings::Settings;
+use configuration::Configuration;
 use spotify::Spotify;
 use std::{
 	env,
@@ -20,12 +13,27 @@ use std::{
 	time::{Duration, Instant},
 };
 
+mod converter;
+mod downloader;
+mod error;
+mod configuration;
+mod spotify;
+mod tag;
+
 fn main() {
 	block_on(start());
 }
 
 async fn start() {
-	let settings = match Settings::load().await {
+	#[cfg(windows)] {
+		//backwards compatibility.
+		match set_virtual_terminal(true) {
+			Ok(_) => {},
+			Err(_) => {}
+		};
+	}
+
+	let settings = match Configuration::load("settings.json".to_string()).await {
 		Ok(settings) => {
 			println!(
 				"{} {}.",
@@ -34,26 +42,26 @@ async fn start() {
 			);
 			settings
 		}
-		Err(_e) => {
+		Err(e) => {
 			println!(
 				"{} {}...",
 				"Settings could not be loaded, because of the following error:".red(),
-				_e
+				e
 			);
 			let default_settings =
-				Settings::new("username", "password", "client_id", "secret").unwrap();
-			match default_settings.save().await {
+				Configuration::new("username", "password", "client_id", "secret").unwrap();
+			match default_settings.save("settings.json".to_string()).await {
 				Ok(_) => {
 					println!(
 						"{}",
 						"..but default settings have been created successfully. Edit them and run the program again.".green()
 					);
 				}
-				Err(_e) => {
+				Err(e) => {
 					println!(
 						"{} {}",
 						"..and default settings could not be written:".red(),
-						_e
+						e
 					);
 				}
 			};
@@ -75,11 +83,11 @@ async fn start() {
 				println!("{}", "Login succeeded.".green());
 				spotify
 			}
-			Err(_e) => {
+			Err(e) => {
 				println!(
 					"{} {}",
 					"Login failed, possibly due to invalid credentials or settings:".red(),
-					_e
+					e
 				);
 				return;
 			}
@@ -89,14 +97,14 @@ async fn start() {
 
 		match downloader.add_uri(&args[1]).await {
 			Ok(_) => {}
-			Err(_e) => {
-				error!("{} {}", "Adding url failed:".red(), _e)
+			Err(e) => {
+				error!("{} {}", "Adding url failed:".red(), e)
 			}
 		}
 
 		let refresh = Duration::from_secs(settings.refresh_ui_seconds);
 		let now = Instant::now();
-		let mut time_elapsed: u64;
+		let mut timeelapsed: u64;
 
 		'outer: loop {
 			print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
@@ -136,15 +144,15 @@ async fn start() {
 
 				println!("{:<19}| {}", progress, download.title);
 			}
-			time_elapsed = now.elapsed().as_secs();
+			timeelapsed = now.elapsed().as_secs();
 			if exit_flag == 1 {
 				break 'outer;
 			}
 
-			println!("\nElapsed second(s): {}", time_elapsed);
+			println!("\nElapsed second(s): {}", timeelapsed);
 			task::sleep(refresh).await
 		}
-		println!("Finished download(s) in {} second(s).", time_elapsed);
+		println!("Finished download(s) in {} second(s).", timeelapsed);
 	} else {
 		println!(
 			"Usage:\n{} (track_url | album_url | playlist_url | artist_url )",
