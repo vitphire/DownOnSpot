@@ -18,8 +18,9 @@ I am not responsible in any way for the usage of the source code.
 
 ## Features
 
+- Free account support (if using free-librespot fork)
+- Download 96kbit/s, 160kbit/s, 256kbit/s audio with a free and 320 kbit/s audio with a premium account from spotify, directly
 - Multi-threaded
-- Download 96, 160, 256 and 320 kbit/s audio from spotify, directly
 - Download tracks, playlists, albums and artists
 - Convert to mp3
 - Metadata tagging
@@ -68,9 +69,8 @@ The following variables are available for `path` and `filename_template` in the 
 
 ## Known issues
 
-- KDE Konsole specific prints to clear the screen or color the text does not work on windows
-- Premium account dependency due to librespot
 - Sometimes downloads slow down
+- Sometimes failing due to `channel error`
 
 ## Authors
 
