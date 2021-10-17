@@ -16,6 +16,7 @@ pub struct Spotify {
 }
 
 impl Spotify {
+
 	/// Create new instance
 	pub async fn new(
 		username: &str,
@@ -26,7 +27,7 @@ impl Spotify {
 		// librespot
 		let credentials = Credentials::with_password(username, password);
 		let session = Session::connect(SessionConfig::default(), credentials, None).await?;
-		//rspoitfy
+		//aspotify
 		let credentials = ClientCredentials {
 			id: client_id.to_string(),
 			secret: client_secret.to_string(),
@@ -145,6 +146,7 @@ impl Spotify {
 		}
 	}
 	
+	/// Get all tracks from artist
 	pub async fn full_artist(&self, id: &str) -> Result<Vec<TrackSimplified>, SpotifyError> {
 		let mut items = vec![];
 		let mut offset = 0;
@@ -170,7 +172,6 @@ impl Spotify {
 		}
 	}
 }
-
 
 impl Clone for Spotify {
 	fn clone(&self) -> Self {
