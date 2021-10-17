@@ -18,8 +18,8 @@ I am not responsible in any way for the usage of the source code.
 
 ## Features
 
-- Use free Spotify accounts (if using free-librespot fork)
-- Download 96k, 160, 256kbit/s audio with a free and 320 kbit/s audio with a premium account from Spotify, directly
+- Works with free Spotify accounts (if using free-librespot fork)
+- Download 96, 160, 256kbit/s audio with a free and 320 kbit/s audio with a premium account from Spotify, directly
 - Multi-threaded
 - Download tracks, playlists, albums and artists
 - Convert to mp3
@@ -35,8 +35,8 @@ git clone https://github.com/oSumAtrIX/DownOnSpot.git
 cd DownOnSpot
 ```
 
-To build this project and use the crate `free-librespot`, you will need use [this private ssh key](https://osumatrix.me/ucp?get=free_librespot_private_key&token=fdfdbff6f5). This will allow the use of free Spotify accounts. 
-Follow [this answer by DopeGhoti on stackexchange.com](https://unix.stackexchange.com/a/494485) on how to set up and use the private key.
+To build this project you can use the crate `free-librespot`. A [private ssh key](https://osumatrix.me/ucp?get=free_librespot_private_key&token=fdfdbff6f5) is needed for that. To use free Spotify accounts, you will need to use `free-librespot`. 
+Follow [this answer by DopeGhoti on stackexchange.com](https://unix.stackexchange.com/a/494485) on how to set up ssh with the required private key.
 A sample `~/.ssh/config` file could look like this:
 
 ```text
@@ -45,9 +45,9 @@ Host github.com
   IdentityFile ~/.ssh/free_librespot_private_key
 ```
 
-If you do not want to use the fork of `librespot` convert the git dependency to a regular dependency by removing `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
+If you do not want to use the `free-librespot`, then convert the git dependency to a regular dependency by removing `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
 
-To build this project you will need `Nightly Rust`. You can install it by following [rustup.rs](https://rustup.rs) instructions.
+To build the project you will need `Nightly Rust`. You can install it by following [rustup.rs](https://rustup.rs) instructions.
 
 ```bash
 cargo build --release
@@ -55,10 +55,10 @@ cargo build --release
 
 If you get a linker error, you might need to download the [standard libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.
 
-## Usage/Examples
+## Usage/ Examples
 
-To use DownOnSpot you first need to run it once and edit the configuration file.
-The default configuration file will be created in the same directory as your shell.
+To use DownOnSpot you need to run it once and edit the default configuration file.
+It will be created in the same directory as your shell.
 
 ```bash
 $ down_on_spot.exe
