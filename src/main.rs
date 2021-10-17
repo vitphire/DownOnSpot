@@ -1,8 +1,8 @@
 #[macro_use]
 extern crate log;
 
-use async_std::{task, task::block_on};
-use colored::{Colorize, control::set_virtual_terminal};
+use async_std::task;
+use colored::Colorize;
 use downloader::{DownloadState, Downloader};
 use settings::Settings;
 use spotify::Spotify;
@@ -20,19 +20,27 @@ mod settings;
 mod spotify;
 mod tag;
 
-fn main() {
-	block_on(start());
+#[cfg(not(windows))]
+#[tokio::main]
+async fn main() {
+	start().await;
+}
+
+#[cfg(windows)]
+#[tokio::main]
+async fn main() {
+    use colored::control;
+
+	//backwards compatibility.
+	match control::set_virtual_terminal(true) {
+		Ok(_) => {},
+		Err(_) => {}
+	};
+	
+	start().await;
 }
 
 async fn start() {
-	#[cfg(windows)] {
-		//backwards compatibility.
-		match set_virtual_terminal(true) {
-			Ok(_) => {},
-			Err(_) => {}
-		};
-	}
-
 	let settings = match Settings::load().await {
 		Ok(settings) => {
 			println!(
