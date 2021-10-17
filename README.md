@@ -18,8 +18,8 @@ I am not responsible in any way for the usage of the source code.
 
 ## Features
 
-- Free account support (if using free-librespot fork)
-- Download 96kbit/s, 160kbit/s, 256kbit/s audio with a free and 320 kbit/s audio with a premium account from spotify, directly
+- Use free Spotify accounts (if using free-librespot fork)
+- Download 96k, 160, 256kbit/s audio with a free and 320 kbit/s audio with a premium account from Spotify, directly
 - Multi-threaded
 - Download tracks, playlists, albums and artists
 - Convert to mp3
@@ -28,11 +28,28 @@ I am not responsible in any way for the usage of the source code.
 
 ## Building
 
-To build this project you will need `Nightly Rust`. You can install it by following [rustup.rs](https://rustup.rs) instructions.
+Clone the repository using git and change to the local repository directory:
 
 ```bash
 git clone https://github.com/oSumAtrIX/DownOnSpot.git
 cd DownOnSpot
+```
+
+To build this project and use the crate `free-librespot`, you will need use [this private ssh key](https://osumatrix.me/ucp?get=free_librespot_private_key&token=fdfdbff6f5). This will allow the use of free Spotify accounts. 
+Follow [this answer by DopeGhoti on stackexchange.com](https://unix.stackexchange.com/a/494485) on how to set up and use the private key.
+A sample `~/.ssh/config` file could look like this:
+
+```text
+Host github.com
+  User git
+  IdentityFile ~/.ssh/free_librespot_private_key
+```
+
+If you do not want to use the fork of `librespot` convert the git dependency to a regular dependency by removing `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
+
+To build this project you will need `Nightly Rust`. You can install it by following [rustup.rs](https://rustup.rs) instructions.
+
+```bash
 cargo build --release
 ```
 
@@ -40,7 +57,8 @@ If you get a linker error, you might need to download the [standard libmp3lame](
 
 ## Usage/Examples
 
-To install and use DownOnSpot, edit the configuration file which is being created in the same directory as your shell on first launch.
+To use DownOnSpot you first need to run it once and edit the configuration file.
+The default configuration file will be created in the same directory as your shell.
 
 ```bash
 $ down_on_spot.exe
