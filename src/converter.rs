@@ -7,7 +7,7 @@ use crate::error::SpotifyError::{LameConverterError, InvalidFormat};
 
 /// Converts audio to MP3
 pub enum AudioConverter {
-	OGG {
+	Ogg {
 		decoder: OggStreamReader<ReadWrap>,
 		lame: lame::Lame,
 		lame_end: bool,
@@ -48,10 +48,10 @@ impl AudioConverter {
 		};
 
 		match format {
-			AudioFormat::AAC => todo!(),
-			AudioFormat::MP4 => todo!(),
+			AudioFormat::Aac => todo!(),
+			AudioFormat::Mp4 => todo!(),
 			// Lewton decoder
-			AudioFormat::OGG => {
+			AudioFormat::Ogg => {
 				let decoder = OggStreamReader::new(ReadWrap::new(Box::new(read)))?;
 				let sample_rate = decoder.ident_hdr.audio_sample_rate;
 				// Init lame
@@ -64,13 +64,13 @@ impl AudioConverter {
 					Err(_) => return Err(LameConverterError("Init".to_string()))
 				};
 
-				Ok(AudioConverter::OGG {
+				Ok(AudioConverter::Ogg {
 					lame,
 					decoder,
 					lame_end: false,
 				})
 			}
-			AudioFormat::MP3 => panic!("No reencoding allowd!"),
+			AudioFormat::Mp3 => panic!("No reencoding allowd!"),
 			_ => Err(InvalidFormat),
 		}
 	}
@@ -79,7 +79,7 @@ impl AudioConverter {
 impl Read for AudioConverter {
 	fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
 		match self {
-			AudioConverter::OGG {
+			AudioConverter::Ogg {
 				decoder,
 				lame,
 				lame_end,

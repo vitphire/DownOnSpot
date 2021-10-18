@@ -6,24 +6,24 @@ use std::path::{Path, PathBuf};
 use super::Field;
 use crate::error::SpotifyError;
 
-pub struct OGGTag {
+pub struct OggTag {
 	path: PathBuf,
 	tag: CommentHeader,
 }
 
-impl OGGTag {
+impl OggTag {
 	/// Load tag from file
-	pub fn open(path: impl AsRef<Path>) -> Result<OGGTag, SpotifyError> {
+	pub fn open(path: impl AsRef<Path>) -> Result<OggTag, SpotifyError> {
 		let mut file = File::open(&path)?;
 		let tag = read_comment_header(&mut file);
-		Ok(OGGTag {
+		Ok(OggTag {
 			path: path.as_ref().to_owned(),
 			tag,
 		})
 	}
 }
 
-impl super::Tag for OGGTag {
+impl super::Tag for OggTag {
 	fn set_separator(&mut self, _separator: &str) {}
 
 	fn set_field(&mut self, field: Field, value: Vec<String>) {
