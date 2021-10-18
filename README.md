@@ -1,12 +1,22 @@
 <div align="center">
 
 # DownOnSpot
-### A Spotify downloader written in Rust
+
+A Spotify downloader written in Rust
 
 <img src="assets/icon.svg" alt="drawing" width="500"/>
-</div>
+
+<br>
 
 [![Build project](https://github.com/oSumAtrIX/DownOnSpot/actions/workflows/rust.yml/badge.svg)](https://github.com/oSumAtrIX/DownOnSpot/actions/workflows/rust.yml)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4474e5fcc9064562b5d653601ee356f3)](https://www.codacy.com/gh/oSumAtrIX/DownOnSpot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=oSumAtrIX/DownOnSpot&amp;utm_campaign=Badge_Grade)
+[![GitHub license](https://img.shields.io/github/license/oSumAtrIX/DownOnSpot)](https://github.com/oSumAtrIX/DownOnSpot/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/oSumAtrIX/DownOnSpot)](https://github.com/oSumAtrIX/DownOnSpot/issues)
+[![GitHub forks](https://img.shields.io/github/forks/oSumAtrIX/DownOnSpot)](https://github.com/oSumAtrIX/DownOnSpot/network)
+[![GitHub stars](https://img.shields.io/github/stars/oSumAtrIX/DownOnSpot)](https://github.com/oSumAtrIX/DownOnSpot/stargazers)
+[![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
+
+</div>
 
 ## Disclaimer
 
@@ -18,13 +28,13 @@ I am not responsible in any way for the usage of the source code.
 
 ## Features
 
-- Works with free Spotify accounts (if using free-librespot fork)
-- Download 96, 160, 256kbit/s audio with a free and 320 kbit/s audio with a premium account from Spotify, directly
-- Multi-threaded
-- Download tracks, playlists, albums and artists
-- Convert to mp3
-- Metadata tagging
-- Simple usage over CLI
+-   Works with free Spotify accounts (if using free-librespot fork)
+-   Download 96, 160, 256kbit/s audio with a free and 320 kbit/s audio with a premium account from Spotify, directly
+-   Multi-threaded
+-   Download tracks, playlists, albums and artists
+-   Convert to mp3
+-   Metadata tagging
+-   Simple usage over CLI
 
 ## Building
 
@@ -73,26 +83,26 @@ down_on_spot.exe (track_url | album_url | playlist_url | artist_url)
 
 Following variables are available for `path` and `filename_template` in the `settings.json`:
 
-- %0disc%
-- %0track%
-- %album%
-- %albumArtist%
-- %albumArtists%
-- %artist%
-- %disc%
-- %id%
-- %title%
-- %track%
+-   %0disc%
+-   %0track%
+-   %album%
+-   %albumArtist%
+-   %albumArtists%
+-   %artist%
+-   %disc%
+-   %id%
+-   %title%
+-   %track%
 
 ## Known issues
 
-- Downloads often slow
-- Downloads fail sometimes due to `channel error`
+-   Downloads often slow
+-   Downloads fail sometimes due to `channel error`
 
 ## Authors
 
-- [@oSumAtrIX](https://osumatrix.me/#github)
-- [@exttex](https://git.freezer.life/exttex)
+-   [@oSumAtrIX](https://osumatrix.me/#github)
+-   [@exttex](https://git.freezer.life/exttex)
 
 ## License
 

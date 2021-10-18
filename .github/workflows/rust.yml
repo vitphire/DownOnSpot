@@ -17,10 +17,9 @@ jobs:
  build_and_test:
   name: DownOnSpot
   runs-on: ubuntu-latest
-  
   steps:
    - uses: actions/checkout@v2
-   - run: sudo apt install -y libasound2-dev libmp3lame-dev  
+   - run: sudo apt install -y libasound2-dev libmp3lame-dev
    - uses: webfactory/ssh-agent@v0.5.3
      with:
       ssh-private-key: ${{ secrets.FREE_LIBRESPOT_PRIVATE_KEY }}
