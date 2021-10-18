@@ -99,11 +99,10 @@ impl Read for AudioConverter {
 									}
 									size
 								}
-								Err(_e) => {
-									drop(lame);
+								Err(e) => {
 									return Err(Error::new(
 										ErrorKind::InvalidData,
-										format!("Lame error: {:?}", _e),
+										format!("Lame error: {:?}", e),
 									));
 								}
 							};
@@ -113,8 +112,6 @@ impl Read for AudioConverter {
 							if *lame_end {
 								return Ok(0);
 							}
-							// Flush buffer
-							drop(lame);
 							*lame_end = true;
 							Ok(0)
 						}
@@ -122,7 +119,6 @@ impl Read for AudioConverter {
 					Err(e) => {
 						// Close lame
 						if !*lame_end {
-							drop(lame);
 							*lame_end = true;
 						}
 						warn!("Lawton error: {}, calling EOF", e);
