@@ -55,7 +55,8 @@ Host github.com
   IdentityFile ~/.ssh/free_librespot_private_key
 ```
 
-If you do not want to use `free-librespot`, then remove the git dependency of `free-librespot`. For that, delete `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
+If you do not want to use `free-librespot`, then remove the git dependency of `free-librespot`. 
+For that, delete `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
 
 `Nightly Rust` is required to build this project. Install it by following [rustup.rs](https://rustup.rs) instructions.
 
