@@ -29,7 +29,7 @@ I am not responsible in any way for the usage of the source code.
 ## Features
 
 -   Works with free Spotify accounts (if using free-librespot fork)
--   Download 96, 160, 256kbit/s audio with a free and 320 kbit/s audio with a premium account from Spotify, directly
+-   Download 96, 160kbit/s audio with a free, 256 and 320 kbit/s audio with a premium account from Spotify, directly
 -   Multi-threaded
 -   Download tracks, playlists, albums and artists
 -   Convert to mp3
@@ -51,7 +51,6 @@ A sample `~/.ssh/config` file could look like this:
 
 ```text
 Host github.com
-  User git
   IdentityFile ~/.ssh/free_librespot_private_key
 ```
 
