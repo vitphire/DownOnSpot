@@ -28,11 +28,11 @@ impl TagWrap {
     }
 
     /// Get Tag trait
-    pub fn get_tag(&mut self) -> Box<&mut dyn Tag> {
-        Box::new(match self {
+    pub fn get_tag(&mut self) -> &mut dyn Tag {
+        match self {
             TagWrap::Ogg(tag) => tag,
             TagWrap::Id3(tag) => tag,
-        })
+        }
     }
 }
 

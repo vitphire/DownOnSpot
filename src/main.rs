@@ -30,11 +30,7 @@ async fn main() {
 	use colored::control;
 
 	//backwards compatibility.
-	match control::set_virtual_terminal(true) {
-		Ok(_) => {}
-		Err(_) => {}
-	};
-
+	if control::set_virtual_terminal(true).is_ok() {};
 	start().await;
 }
 

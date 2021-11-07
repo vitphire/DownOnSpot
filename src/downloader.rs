@@ -74,7 +74,7 @@ impl Downloader {
 					.search(input)
 					.await?
 					.into_iter()
-					.map(|item| SearchResult::from(item))
+					.map(SearchResult::from)
 					.collect();
 				Ok(Some(results))
 			}
