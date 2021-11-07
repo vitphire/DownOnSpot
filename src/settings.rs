@@ -1,5 +1,4 @@
 use crate::downloader::DownloaderConfig;
-use crate::downloader::Quality;
 use crate::error::SpotifyError;
 use serde::{Deserialize, Serialize};
 
@@ -18,30 +17,18 @@ pub struct Settings {
 	pub refresh_ui_seconds: u64,
 	pub downloader: DownloaderConfig,
 }
+
 impl Settings {
 	// Create new instance
-	pub fn new(
-		username: &str,
-		password: &str,
-		client_id: &str,
-		client_secret: &str,
-	) -> Option<Settings> {
-		Some(Settings {
+	pub fn new(username: &str, password: &str, client_id: &str, client_secret: &str) -> Settings {
+		Settings {
 			username: username.to_string(),
 			password: password.to_string(),
 			client_id: client_id.to_string(),
 			client_secret: client_secret.to_string(),
 			refresh_ui_seconds: 1,
-			downloader: DownloaderConfig {
-				concurrent_downloads: 4,
-				quality: Quality::Q320,
-				path: "downloads".to_string(),
-				filename_template: "%artist% - %title%".to_string(),
-				id3v24: true,
-				convert_to_mp3: false,
-				separator: ", ".to_string(),
-			},
-		})
+			downloader: DownloaderConfig::new()
+		}
 	}
 
 	// Serialize the settings to a json file

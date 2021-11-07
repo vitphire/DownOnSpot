@@ -1,4 +1,5 @@
 use chrono::NaiveDate;
+
 use std::path::Path;
 
 use crate::downloader::AudioFormat;
@@ -16,6 +17,7 @@ pub enum TagWrap {
 }
 
 impl TagWrap {
+
     /// Load from file
     pub fn new(path: impl AsRef<Path>, format: AudioFormat) -> Result<TagWrap, SpotifyError> {
         match format {
@@ -27,10 +29,10 @@ impl TagWrap {
 
     /// Get Tag trait
     pub fn get_tag(&mut self) -> Box<&mut dyn Tag> {
-        match self {
-            TagWrap::Ogg(tag) => Box::new(tag),
-            TagWrap::Id3(tag) => Box::new(tag),
-        }
+        Box::new(match self {
+            TagWrap::Ogg(tag) => tag,
+            TagWrap::Id3(tag) => tag,
+        })
     }
 }
 
