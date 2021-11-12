@@ -1,6 +1,14 @@
 #[macro_use]
 extern crate log;
 
+mod converter;
+mod downloader;
+mod error;
+mod server;
+mod settings;
+mod spotify;
+mod tag;
+
 use async_std::task;
 use colored::Colorize;
 use downloader::{DownloadState, Downloader};
@@ -10,13 +18,6 @@ use std::{
 	env,
 	time::{Duration, Instant},
 };
-
-mod converter;
-mod downloader;
-mod error;
-mod settings;
-mod spotify;
-mod tag;
 
 #[cfg(not(windows))]
 #[tokio::main]
@@ -71,133 +72,135 @@ async fn start() {
 	};
 
 	let args: Vec<String> = env::args().collect();
-	if args.len() > 1 {
-		let spotify = match Spotify::new(
-			&settings.username,
-			&settings.password,
-			&settings.client_id,
-			&settings.client_secret,
-		)
-		.await
-		{
-			Ok(spotify) => {
-				println!("{}", "Login succeeded.".green());
-				spotify
-			}
-			Err(e) => {
-				println!(
-					"{} {}",
-					"Login failed, possibly due to invalid credentials or settings:".red(),
-					e
-				);
-				return;
-			}
-		};
-
-		let downloader = Downloader::new(settings.downloader, spotify);
-
-		match downloader.handle_input(&args[1]).await {
-			Ok(search_results) => {
-				if let Some(search_results) = search_results {
-					print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
-
-					for (i, track) in search_results.iter().enumerate() {
-						println!("{}: {} - {}", i + 1, track.author, track.title);
-					}
-					println!("{}", "Select the track (default: 1): ".green());
-
-					let mut selection;
-					loop {
-						let mut input = String::new();
-						std::io::stdin()
-							.read_line(&mut input)
-							.expect("Failed to read line");
-
-						selection = input.trim().parse::<usize>().unwrap_or(1) - 1;
-
-						if selection < search_results.len() {
-							break;
-						}
-						println!("{}", "Invalid selection. Try again or quit (CTRL+C):".red());
-					}
-
-					let track = &search_results[selection];
-
-					if let Err(e) = downloader
-						.add_uri(&format!("spotify:track:{}", track.track_id))
-						.await
-					{
-						error!(
-							"{}",
-							format!(
-								"{}: {}",
-								"Track could not be added to download queue.".red(),
-								e
-							)
-						);
-					} else {
-						let refresh = Duration::from_secs(settings.refresh_ui_seconds);
-						let now = Instant::now();
-						let mut time_elapsed: u64;
-
-						'outer: loop {
-							print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
-							let mut exit_flag: i8 = 1;
-
-							for download in downloader.get_downloads().await {
-								let state = download.state;
-
-								let progress: String;
-
-								if state != DownloadState::Done {
-									exit_flag &= 0;
-									progress = match state {
-										DownloadState::Downloading(r, t) => {
-											let p = r as f32 / t as f32 * 100.0;
-											if p > 100.0 {
-												"100%".to_string()
-											} else {
-												format!("{}%", p as i8)
-											}
-										}
-										DownloadState::Post => "Postprocessing... ".to_string(),
-										DownloadState::None => "Preparing... ".to_string(),
-										DownloadState::Lock => "Preparing... ".to_string(),
-										DownloadState::Error(e) => {
-											exit_flag |= 1;
-											format!("{} ", e)
-										}
-										DownloadState::Done => {
-											exit_flag |= 1;
-											"Impossible state".to_string()
-										}
-									};
-								} else {
-									progress = "Done.".to_string();
-								}
-
-								println!("{:<19}| {}", progress, download.title);
-							}
-							time_elapsed = now.elapsed().as_secs();
-							if exit_flag == 1 {
-								break 'outer;
-							}
-
-							println!("\nElapsed second(s): {}", time_elapsed);
-							task::sleep(refresh).await
-						}
-						println!("Finished download(s) in {} second(s).", time_elapsed);
-					}
-				}
-			}
-			Err(e) => {
-				error!("{} {}", "Handling input failed:".red(), e)
-			}
-		}
-	} else {
+	if args.len() <= 1 {
 		println!(
 			"Usage:\n{} (track_url | album_url | playlist_url | artist_url )",
 			args[0]
 		);
+		return;
+	}
+	
+	let spotify = match Spotify::new(
+		&settings.username,
+		&settings.password,
+		&settings.client_id,
+		&settings.client_secret,
+	)
+	.await
+	{
+		Ok(spotify) => {
+			println!("{}", "Login succeeded.".green());
+			spotify
+		}
+		Err(e) => {
+			println!(
+				"{} {}",
+				"Login failed, possibly due to invalid credentials or settings:".red(),
+				e
+			);
+			return;
+		}
+	};
+
+	let input = args[1..].join(" ");
+
+	let downloader = Downloader::new(settings.downloader, spotify);
+	match downloader.handle_input(&input).await {
+		Ok(search_results) => {
+			if let Some(search_results) = search_results {
+				print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
+
+				for (i, track) in search_results.iter().enumerate() {
+					println!("{}: {} - {}", i + 1, track.author, track.title);
+				}
+				println!("{}", "Select the track (default: 1): ".green());
+
+				let mut selection;
+				loop {
+					let mut input = String::new();
+					std::io::stdin()
+						.read_line(&mut input)
+						.expect("Failed to read line");
+
+					selection = input.trim().parse::<usize>().unwrap_or(1) - 1;
+
+					if selection < search_results.len() {
+						break;
+					}
+					println!("{}", "Invalid selection. Try again or quit (CTRL+C):".red());
+				}
+
+				let track = &search_results[selection];
+
+				if let Err(e) = downloader
+					.add_uri(&format!("spotify:track:{}", track.track_id))
+					.await
+				{
+					error!(
+						"{}",
+						format!(
+							"{}: {}",
+							"Track could not be added to download queue.".red(),
+							e
+						)
+					);
+				} else {
+					let refresh = Duration::from_secs(settings.refresh_ui_seconds);
+					let now = Instant::now();
+					let mut time_elapsed: u64;
+
+					'outer: loop {
+						print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
+						let mut exit_flag: i8 = 1;
+
+						for download in downloader.get_downloads().await {
+							let state = download.state;
+
+							let progress: String;
+
+							if state != DownloadState::Done {
+								exit_flag &= 0;
+								progress = match state {
+									DownloadState::Downloading(r, t) => {
+										let p = r as f32 / t as f32 * 100.0;
+										if p > 100.0 {
+											"100%".to_string()
+										} else {
+											format!("{}%", p as i8)
+										}
+									}
+									DownloadState::Post => "Postprocessing... ".to_string(),
+									DownloadState::None => "Preparing... ".to_string(),
+									DownloadState::Lock => "Preparing... ".to_string(),
+									DownloadState::Error(e) => {
+										exit_flag |= 1;
+										format!("{} ", e)
+									}
+									DownloadState::Done => {
+										exit_flag |= 1;
+										"Impossible state".to_string()
+									}
+								};
+							} else {
+								progress = "Done.".to_string();
+							}
+
+							println!("{:<19}| {}", progress, download.title);
+						}
+						time_elapsed = now.elapsed().as_secs();
+						if exit_flag == 1 {
+							break 'outer;
+						}
+
+						println!("\nElapsed second(s): {}", time_elapsed);
+						task::sleep(refresh).await
+					}
+					println!("Finished download(s) in {} second(s).", time_elapsed);
+				}
+			}
+		}
+		Err(e) => {
+			error!("{} {}", "Handling input failed:".red(), e)
+		}
 	}
 }
