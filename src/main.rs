@@ -4,7 +4,6 @@ extern crate log;
 mod converter;
 mod downloader;
 mod error;
-mod server;
 mod settings;
 mod spotify;
 mod tag;
