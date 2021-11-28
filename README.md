@@ -97,7 +97,7 @@ Following variables are available for `path` and `filename_template` in the `set
 
 ## Known issues
 
--   Downloads often slow
+-   Mp3 downloads slow due to libmp3lame
 -   Downloads fail sometimes due to `channel error`
 
 ## Authors
