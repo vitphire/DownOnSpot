@@ -472,6 +472,16 @@ impl DownloaderInternal {
 		Ok(())
 	}
 
+	async fn find_alternative(session: &Session, track : Track) -> Result<Track, SpotifyError> {
+		for alt in track.alternatives {
+			let t = Track::get(&session, alt).await?;
+			if t.available {
+				return Ok(t);
+			}
+		}
+		return Err(SpotifyError::Unavailable);
+	}
+
 	/// Download track by id
 	async fn download_track(
 		session: &Session,
@@ -482,16 +492,11 @@ impl DownloaderInternal {
 		job_id: i64,
 	) -> Result<(PathBuf, AudioFormat), SpotifyError> {
 		let id = SpotifyId::from_base62(id)?;
-		let track = Track::get(session, id).await?;
+		let mut track = Track::get(session, id).await?;
+
 		// Fallback if unavailable
 		if !track.available {
-			for alt in track.alternatives {
-				let t = Track::get(session, alt).await?;
-				if t.available {
-					break;
-				}
-			}
-			return Err(SpotifyError::Unavailable);
+			track = DownloaderInternal::find_alternative(session, track).await?;
 		}
 		// Quality fallback
 		let mut quality = config.quality;
