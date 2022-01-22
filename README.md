@@ -107,4 +107,4 @@ Following variables are available for `path` and `filename_template` in the `set
 
 ## License
 
-[GPL3](https://choosealicense.com/licenses/agpl-3.0/)
+[GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
