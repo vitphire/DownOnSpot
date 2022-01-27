@@ -27,7 +27,7 @@ impl Settings {
 			client_id: client_id.to_string(),
 			client_secret: client_secret.to_string(),
 			refresh_ui_seconds: 1,
-			downloader: DownloaderConfig::new()
+			downloader: DownloaderConfig::new(),
 		}
 	}
 

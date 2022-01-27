@@ -64,20 +64,20 @@ impl Downloader {
 		input: &str,
 	) -> Result<Option<Vec<SearchResult>>, SpotifyError> {
 		if let Ok(uri) = Spotify::parse_uri(input) {
-				if let Err(e) = self.add_uri(&uri).await {
-							return Err(e);
-						}
-				Ok(None)
-			} else {
-				let results: Vec<SearchResult> = self
-					.spotify
-					.search(input)
-					.await?
-					.into_iter()
-					.map(SearchResult::from)
-					.collect();
-				Ok(Some(results))
+			if let Err(e) = self.add_uri(&uri).await {
+				return Err(e);
 			}
+			Ok(None)
+		} else {
+			let results: Vec<SearchResult> = self
+				.spotify
+				.search(input)
+				.await?
+				.into_iter()
+				.map(SearchResult::from)
+				.collect();
+			Ok(Some(results))
+		}
 	}
 
 	/// Add URL or URI to queue
@@ -472,7 +472,7 @@ impl DownloaderInternal {
 		Ok(())
 	}
 
-	async fn find_alternative(session: &Session, track : Track) -> Result<Track, SpotifyError> {
+	async fn find_alternative(session: &Session, track: Track) -> Result<Track, SpotifyError> {
 		for alt in track.alternatives {
 			let t = Track::get(&session, alt).await?;
 			if t.available {
