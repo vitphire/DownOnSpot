@@ -104,6 +104,7 @@ Following variables are available for `path` and `filename_template` in the `set
 
 -   [@oSumAtrIX](https://osumatrix.me/#github)
 -   [@exttex](https://git.freezer.life/exttex)
+-   [@breuerfelix](https://github.com/breuerfelix)
 
 ## License
 
