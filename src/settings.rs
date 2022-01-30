@@ -30,7 +30,6 @@ pub struct Settings {
 fn get_config_folder_path() -> PathBuf {
 	match env::var("XDG_CONFIG_HOME") {
 		Ok(v) => Path::new(&v).join("down_on_spot").to_path_buf(),
-
 		Err(_) => Path::new(&env::var("HOME").unwrap()).join(".config/down_on_spot"),
 	}
 }
@@ -38,7 +37,7 @@ fn get_config_folder_path() -> PathBuf {
 // On Windows, follow whatever windows does for AppData
 #[cfg(target_family = "windows")]
 fn get_config_folder_path() -> PathBuf {
-	Path::new(&env::var("APPDATA").unwrap()).join("down_on_spot");
+	Path::new(&env::var("APPDATA").unwrap()).join("down_on_spot")
 }
 
 impl Settings {
