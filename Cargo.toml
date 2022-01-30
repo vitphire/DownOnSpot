@@ -7,7 +7,7 @@ panic = "abort"
 
 [package]
 name = "down_on_spot"
-version = "0.1.2"
+version = "0.2.0"
 edition = "2018"
 authors = ["exttex", "oSumAtrIX"]
 build = "build.rs"
@@ -42,4 +42,4 @@ tokio = { version = "1.12", features = ["fs"] }
 OriginalFilename = "DownOnSpot.exe"
 FileDescription = "Download songs from Spotify with Rust"
 ProductName = "DownOnSpot"
-ProductVersion = "0.1.2"
+ProductVersion = "0.2.0"
