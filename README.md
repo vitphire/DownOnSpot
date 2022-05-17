@@ -95,6 +95,10 @@ Following variables are available for `path` and `filename_template` in the `set
 -   %title%
 -   %track%
 
+## Additional scripts
+
+- [Userscript to download titles from YouTube](https://gist.github.com/oSumAtrIX/6abf46e2ea25d32f4e6608c3c3cf837e)
+
 ## Known issues
 
 -   Mp3 downloads slow due to libmp3lame
