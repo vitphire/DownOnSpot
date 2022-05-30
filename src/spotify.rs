@@ -3,9 +3,11 @@ use aspotify::{
 	TrackSimplified,
 };
 use librespot::core::authentication::Credentials;
+use librespot::core::cache::Cache;
 use librespot::core::config::SessionConfig;
 use librespot::core::session::Session;
 use std::fmt;
+use std::path::Path;
 use url::Url;
 
 use crate::error::SpotifyError;
@@ -26,7 +28,14 @@ impl Spotify {
 	) -> Result<Spotify, SpotifyError> {
 		// librespot
 		let credentials = Credentials::with_password(username, password);
-		let session = Session::connect(SessionConfig::default(), credentials, None).await?;
+		let (session, _) = Session::connect(
+			SessionConfig::default(),
+			credentials,
+			Some(Cache::new(Some(Path::new("credentials_cache")), None, None, None).unwrap()),
+			true,
+		)
+		.await?;
+
 		//aspotify
 		let credentials = ClientCredentials {
 			id: client_id.to_string(),

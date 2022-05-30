@@ -504,7 +504,7 @@ impl DownloaderInternal {
 		'outer: loop {
 			for format in quality.get_file_formats() {
 				if let Some(f) = track.files.get(&format) {
-					info!("{} Using {:?} format.", id.to_base62(), format);
+					info!("{} Using {:?} format.", id.to_base62().unwrap(), format);
 					file_id = Some(f);
 					file_format = Some(format);
 					break 'outer;
@@ -515,7 +515,7 @@ impl DownloaderInternal {
 				Some(q) => quality = q,
 				None => break,
 			}
-			warn!("{} Falling back to: {:?}", id.to_base62(), quality);
+			warn!("{} Falling back to: {:?}", id.to_base62().unwrap(), quality);
 		}
 		let file_id = file_id.ok_or(SpotifyError::Unavailable)?;
 		let file_format = file_format.unwrap();
@@ -573,7 +573,7 @@ impl DownloaderInternal {
 			}
 		}
 
-		info!("Done downloading: {}", track.id.to_base62());
+		info!("Done downloading: {}", track.id.to_base62().unwrap());
 		Ok((path, audio_format))
 	}
 
