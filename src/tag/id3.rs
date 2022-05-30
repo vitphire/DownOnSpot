@@ -1,6 +1,6 @@
 use chrono::{Datelike, NaiveDate};
 use id3::frame::{Picture, PictureType, Timestamp};
-use id3::{Tag, Version, TagLike};
+use id3::{Tag, TagLike, Version};
 use std::path::{Path, PathBuf};
 
 use crate::error::SpotifyError;
@@ -50,8 +50,8 @@ impl super::Tag for ID3Tag {
 			Field::Title => "TIT2",
 			Field::Artist => "TPE1",
 			Field::Album => "TALB",
-			Field::TrackNumber => "TPOS",
-			Field::DiscNumber => "TRCK",
+			Field::TrackNumber => "TRCK",
+			Field::DiscNumber => "TPOS",
 			Field::Genre => "TCON",
 			Field::Label => "TPUB",
 			Field::AlbumArtist => "TPE2",
