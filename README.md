@@ -57,7 +57,7 @@ Host github.com
 
 If you do not want to use `free-librespot` (i.e. if you are using a paid Spotify account), then remove the git dependency of `free-librespot`. 
 For that, delete `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
-For paid Spotify accounts, make sure to then add `librespot = "0.3.1"` in the `Cargo.toml` file instead.
+For paid Spotify accounts, make sure to then add `librespot = "0.4.2"` in the `Cargo.toml` file instead.
 
 `Nightly Rust` is required to build this project. Install it by following [rustup.rs](https://rustup.rs) instructions.
 
