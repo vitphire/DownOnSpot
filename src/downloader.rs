@@ -531,6 +531,13 @@ impl DownloaderInternal {
 			}
 		);
 		let path = Path::new(&path).to_owned();
+
+		// Don't download if we are skipping and the path exists.
+		if config.skip_existing && path.is_file() {
+			return Err(SpotifyError::AlreadyDownloaded);
+		}
+
+
 		let path_clone = path.clone();
 
 		let key = session.audio_key().request(track.id, *file_id).await?;
@@ -861,6 +868,7 @@ pub struct DownloaderConfig {
 	pub id3v24: bool,
 	pub convert_to_mp3: bool,
 	pub separator: String,
+	pub skip_existing: bool,
 }
 
 impl DownloaderConfig {
@@ -874,6 +882,7 @@ impl DownloaderConfig {
 			id3v24: true,
 			convert_to_mp3: false,
 			separator: ", ".to_string(),
+			skip_existing: true
 		}
 	}
 }
