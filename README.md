@@ -27,14 +27,14 @@ I am not responsible in any way for the usage of the source code.
 
 ## Features
 
--   Works with free Spotify accounts (if using free-librespot fork)
--   Download 96, 160kbit/s audio with a free, 256 and 320 kbit/s audio with a premium account from Spotify, directly
--   Multi-threaded
--   Search for tracks
--   Download tracks, playlists, albums and artists
--   Convert to mp3
--   Metadata tagging
--   Simple usage over CLI
+- Works with free Spotify accounts (if using free-librespot fork)
+- Download 96, 160kbit/s audio with a free, 256 and 320 kbit/s audio with a premium account from Spotify, directly
+- Multi-threaded
+- Search for tracks
+- Download tracks, playlists, albums and artists
+- Convert to mp3
+- Metadata tagging
+- Simple usage over CLI
 
 ## Building
 
@@ -44,19 +44,6 @@ Clone the repository using git and change to the local repository directory:
 git clone https://github.com/oSumAtrIX/DownOnSpot.git
 cd DownOnSpot
 ```
-
-A [private ssh key](https://osumatrix.me/ucp?get=free_librespot_private_key&token=fdfdbff6f5) is needed to use free Spotify accounts. 
-Follow [this answer by DopeGhoti on stackexchange.com](https://unix.stackexchange.com/a/494485) on how to set up ssh with the required private key.
-A sample `~/.ssh/config` file could look like this:
-
-```text
-Host github.com
-  IdentityFile ~/.ssh/free_librespot_private_key
-```
-
-If you do not want to use `free-librespot` (i.e. if you are using a paid Spotify account), then remove the git dependency of `free-librespot`. 
-For that, delete `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` inside `Cargo.toml`.
-For paid Spotify accounts, make sure to then add `librespot = "0.4.2"` in the `Cargo.toml` file instead.
 
 `Nightly Rust` is required to build this project. Install it by following [rustup.rs](https://rustup.rs) instructions.
 
@@ -80,6 +67,7 @@ $ down_on_spot.exe
 Usage:
 down_on_spot.exe (search_term | track_url | album_url | playlist_url | artist_url)
 ```
+
 On OS X, the `settings.json` file is created globally for the logged in user and is located in `~/.config/down_on_spot/settings.json`.
 
 Apart from your Spotify username and password, you will need to login in to the Spotify developer dashboard and [create a new private application](https://developer.spotify.com/dashboard/applications). Fill in the `client_id` and `client_secret` in your `settings.json` from your newly created app.
@@ -89,16 +77,16 @@ All the other settings should be self-explanatory, conversion from Ogg to MP3 is
 
 Following variables are available for `path` and `filename_template` in the `settings.json`:
 
--   %0disc%
--   %0track%
--   %album%
--   %albumArtist%
--   %albumArtists%
--   %artist%
--   %disc%
--   %id%
--   %title%
--   %track%
+- %0disc%
+- %0track%
+- %album%
+- %albumArtist%
+- %albumArtists%
+- %artist%
+- %disc%
+- %id%
+- %title%
+- %track%
 
 ## Additional scripts
 
@@ -106,16 +94,15 @@ Following variables are available for `path` and `filename_template` in the `set
 
 ## Known issues
 
--   Mp3 downloads slow due to libmp3lame
--   Downloads fail sometimes due to `channel error`
+- Mp3 downloads slow due to libmp3lame
+- Downloads fail sometimes due to `channel error`
 
 ## Authors
 
--   [@oSumAtrIX](https://osumatrix.me/#github)
--   [@exttex](https://git.freezer.life/exttex)
--   [@breuerfelix](https://github.com/breuerfelix)
--   [@thatpix3l](https://github.com/thatpix3l)
--   [@45ninjas](https://github.com/45ninjas)
+- [@oSumAtrIX](https://osumatrix.me/#github)
+- [@exttex](https://git.freezer.life/exttex)
+- [@breuerfelix](https://github.com/breuerfelix)
+- [@thatpix3l](https://github.com/thatpix3l)
 
 ## License
 

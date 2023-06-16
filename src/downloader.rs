@@ -7,7 +7,8 @@ use librespot::audio::{AudioDecrypt, AudioFile};
 use librespot::core::audio_key::AudioKey;
 use librespot::core::session::Session;
 use librespot::core::spotify_id::SpotifyId;
-use librespot::metadata::{FileFormat, Metadata, Track};
+use librespot::metadata::audio::AudioFileFormat;
+use librespot::metadata::{Metadata, Track};
 use sanitize_filename::sanitize;
 use serde::{Deserialize, Serialize};
 use std::io::Read;
@@ -76,6 +77,7 @@ impl Downloader {
 				.into_iter()
 				.map(SearchResult::from)
 				.collect();
+
 			Ok(Some(results))
 		}
 	}
@@ -473,12 +475,13 @@ impl DownloaderInternal {
 	}
 
 	async fn find_alternative(session: &Session, track: Track) -> Result<Track, SpotifyError> {
-		for alt in track.alternatives {
-			let t = Track::get(&session, alt).await?;
-			if t.available {
+		for alt in track.alternatives.0 {
+			let t = Track::get(&session, &alt).await?;
+			if !t.availability.is_empty() {
 				return Ok(t);
 			}
 		}
+
 		return Err(SpotifyError::Unavailable);
 	}
 
@@ -492,12 +495,13 @@ impl DownloaderInternal {
 		job_id: i64,
 	) -> Result<(PathBuf, AudioFormat), SpotifyError> {
 		let id = SpotifyId::from_base62(id)?;
-		let mut track = Track::get(session, id).await?;
+		let track = Track::get(session, &id).await?;
 
-		// Fallback if unavailable
-		if !track.available {
-			track = DownloaderInternal::find_alternative(session, track).await?;
-		}
+		// TODO: Fallback if unavailable, but no idea how to check if it's available yet
+		//if track.availability.is_empty() {
+		//	track = DownloaderInternal::find_alternative(session, track).await?;
+		//}
+
 		// Quality fallback
 		let mut quality = config.quality;
 		let (mut file_id, mut file_format) = (None, None);
@@ -517,6 +521,7 @@ impl DownloaderInternal {
 			}
 			warn!("{} Falling back to: {:?}", id.to_base62().unwrap(), quality);
 		}
+
 		let file_id = file_id.ok_or(SpotifyError::Unavailable)?;
 		let file_format = file_format.unwrap();
 
@@ -541,8 +546,8 @@ impl DownloaderInternal {
 		let path_clone = path.clone();
 
 		let key = session.audio_key().request(track.id, *file_id).await?;
-		let encrypted = AudioFile::open(session, *file_id, 1024 * 1024, true).await?;
-		let size = encrypted.get_stream_loader_controller().len();
+		let encrypted = AudioFile::open(session, *file_id, 1024 * 1024).await?;
+		let size = encrypted.get_stream_loader_controller()?.len();
 		// Download
 		let s = match config.convert_to_mp3 {
 			true => {
@@ -591,7 +596,7 @@ impl DownloaderInternal {
 	) -> impl Stream<Item = Result<usize, SpotifyError>> {
 		try_stream! {
 			let mut file = File::create(path).await?;
-			let mut decrypted = AudioDecrypt::new(key, encrypted);
+			let mut decrypted = AudioDecrypt::new(Some(key), encrypted);
 			// Skip (i guess encrypted shit)
 			let mut skip: [u8; 0xa7] = [0; 0xa7];
 			let mut decrypted = tokio::task::spawn_blocking(move || {
@@ -629,7 +634,7 @@ impl DownloaderInternal {
 	) -> impl Stream<Item = Result<usize, SpotifyError>> {
 		try_stream! {
 			let mut file = File::create(path).await?;
-			let mut decrypted = AudioDecrypt::new(key, encrypted);
+			let mut decrypted = AudioDecrypt::new(Some(key), encrypted);
 			// Skip (i guess encrypted shit)
 			let mut skip: [u8; 0xa7] = [0; 0xa7];
 			let decrypted = tokio::task::spawn_blocking(move || {
@@ -669,8 +674,7 @@ pub enum AudioFormat {
 	Ogg,
 	Aac,
 	Mp3,
-	Mp4,
-	Unknown,
+	Flac,
 }
 
 impl AudioFormat {
@@ -680,50 +684,48 @@ impl AudioFormat {
 			AudioFormat::Ogg => "ogg",
 			AudioFormat::Aac => "m4a",
 			AudioFormat::Mp3 => "mp3",
-			AudioFormat::Mp4 => "mp4",
-			AudioFormat::Unknown => "",
+			AudioFormat::Flac => "flac",
 		}
 		.to_string()
 	}
 }
 
-impl From<FileFormat> for AudioFormat {
-	fn from(f: FileFormat) -> Self {
+impl From<AudioFileFormat> for AudioFormat {
+	fn from(f: AudioFileFormat) -> Self {
 		match f {
-			FileFormat::OGG_VORBIS_96 => Self::Ogg,
-			FileFormat::OGG_VORBIS_160 => Self::Ogg,
-			FileFormat::OGG_VORBIS_320 => Self::Ogg,
-			FileFormat::MP3_256 => Self::Mp3,
-			FileFormat::MP3_320 => Self::Mp3,
-			FileFormat::MP3_160 => Self::Mp3,
-			FileFormat::MP3_96 => Self::Mp3,
-			FileFormat::MP3_160_ENC => Self::Mp3,
-			FileFormat::MP4_128_DUAL => Self::Mp4,
-			FileFormat::OTHER3 => Self::Unknown,
-			FileFormat::AAC_160 => Self::Aac,
-			FileFormat::AAC_320 => Self::Aac,
-			FileFormat::MP4_128 => Self::Mp4,
-			FileFormat::OTHER5 => Self::Unknown,
+			AudioFileFormat::OGG_VORBIS_96 => Self::Ogg,
+			AudioFileFormat::OGG_VORBIS_160 => Self::Ogg,
+			AudioFileFormat::OGG_VORBIS_320 => Self::Ogg,
+			AudioFileFormat::MP3_256 => Self::Mp3,
+			AudioFileFormat::MP3_320 => Self::Mp3,
+			AudioFileFormat::MP3_160 => Self::Mp3,
+			AudioFileFormat::MP3_96 => Self::Mp3,
+			AudioFileFormat::MP3_160_ENC => Self::Mp3,
+			AudioFileFormat::AAC_24 => Self::Aac,
+			AudioFileFormat::AAC_48 => Self::Aac,
+			AudioFileFormat::FLAC_FLAC => Self::Flac,
 		}
 	}
 }
 
 impl Quality {
-	/// Get librespot FileFormat
-	pub fn get_file_formats(&self) -> Vec<FileFormat> {
+	/// Get librespot AudioFileFormat
+	pub fn get_file_formats(&self) -> Vec<AudioFileFormat> {
 		match self {
 			Self::Q320 => vec![
-				FileFormat::OGG_VORBIS_320,
-				FileFormat::AAC_320,
-				FileFormat::MP3_320,
+				AudioFileFormat::OGG_VORBIS_320,
+				AudioFileFormat::MP3_320,
+				AudioFileFormat::FLAC_FLAC,
 			],
-			Self::Q256 => vec![FileFormat::MP3_256],
+			Self::Q256 => vec![AudioFileFormat::MP3_256],
 			Self::Q160 => vec![
-				FileFormat::OGG_VORBIS_160,
-				FileFormat::AAC_160,
-				FileFormat::MP3_160,
+				AudioFileFormat::OGG_VORBIS_160,
+				AudioFileFormat::MP3_160,
+				AudioFileFormat::MP3_160_ENC,
+				AudioFileFormat::AAC_24,
+				AudioFileFormat::AAC_48,
 			],
-			Self::Q96 => vec![FileFormat::OGG_VORBIS_96, FileFormat::MP3_96],
+			Self::Q96 => vec![AudioFileFormat::OGG_VORBIS_96, AudioFileFormat::MP3_96],
 		}
 	}
 

@@ -15,6 +15,7 @@ use settings::Settings;
 use spotify::Spotify;
 use std::{
 	env,
+	os::windows::process,
 	time::{Duration, Instant},
 };
 

@@ -1,3 +1,4 @@
+use librespot::core::Error;
 use std::fmt;
 
 #[derive(Debug, Clone)]
@@ -20,6 +21,12 @@ pub enum SpotifyError {
 	Reqwest(String),
 	InvalidFormat,
 	AlreadyDownloaded,
+}
+
+impl From<Error> for SpotifyError {
+	fn from(e: Error) -> Self {
+		Self::Error(e.to_string())
+	}
 }
 
 impl std::error::Error for SpotifyError {}
@@ -71,6 +78,8 @@ impl From<librespot::core::session::SessionError> for SpotifyError {
 			librespot::core::session::SessionError::AuthenticationError(_) => {
 				SpotifyError::AuthenticationError
 			}
+			librespot::core::session::SessionError::NotConnected => SpotifyError::Error("Connection error".to_string()),
+			librespot::core::session::SessionError::Packet(_) => SpotifyError::Error("Packet Error".to_string()),
 		}
 	}
 }
