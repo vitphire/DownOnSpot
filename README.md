@@ -73,6 +73,8 @@ On OS X, the `settings.json` file is created globally for the logged in user and
 Apart from your Spotify username and password, you will need to login in to the Spotify developer dashboard and [create a new private application](https://developer.spotify.com/dashboard/applications). Fill in the `client_id` and `client_secret` in your `settings.json` from your newly created app.
 All the other settings should be self-explanatory, conversion from Ogg to MP3 is disabled by default.
 
+> **Note**: If you're on a free Spotify account, remember to set down the quality to 160 ("Q320" -> "Q160"). Otherwise, you'll get an "Audio Key Error" since the free account can't exceed 160kbit/s.
+
 ### Template variables
 
 Following variables are available for `path` and `filename_template` in the `settings.json`:
