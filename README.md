@@ -17,28 +17,28 @@ A Spotify downloader written in Rust
 
 </div>
 
-## Disclaimer
+## 🤝 Disclaimer
 
 > [!NOTE]
-DownOnSpot was not developed for piracy.
-It is meant to be used in compliance with DMCA, Section 1201, for educational, private and fair use.
-I am not responsible in any way for the usage of the source code.
+> DownOnSpot was not developed for piracy.
+> It is meant to be used in compliance with DMCA, Section 1201, for educational, private and fair use.
+> I am not responsible in any way for the usage of the source code.
 
-## Features
+## ⭐ Features
 
-- Works with free Spotify accounts
-- Download 96, 160kbit/s audio with a free, 256 and 320 kbit/s audio with a premium account from Spotify, directly
-- Multi-threaded
-- Search for tracks
-- Download tracks, playlists, albums and artists
-- Convert to mp3
-- Metadata tagging
-- Simple usage over CLI
+- ✅ Actually downloads from Spotify, free and premium
+- ✅ Chose between 96, 160, 256 and 320 kbit/s (free users can't exceed 160kbit/s)
+- ✅ Download tracks, playlists, albums and artists
+- ✅ Multi-threaded
+- ✅ Search for tracks
+- ✅ Download MP3 and original OGG files
+- ✅ Metadata tagging
+- ✅ Simple CLI interface
 
 > [!NOTE]
 > Free Spotify users can can't exceed 160kbit/s. Change the `quality` setting in the `settings.json` file to `Q160` or lower. If you want to download 256 or 320kbit/s, you need to use a premium account.
 
-## Building
+## ⚒️ Building
 
 1. Clone the repository using git and change to the local repository directory:
 
@@ -53,7 +53,7 @@ I am not responsible in any way for the usage of the source code.
    cargo build --release
    ```
 
-> [!WARNING]
+> [!NOTE]
 > You need [this private SSH key](assets/free_librespot_private_key) to clone a dependency of DownOnSpot in order to use it with a free Spotify account.
 > Follow [this answer by DopeGhoti on stackexchange.com](https://unix.stackexchange.com/a/494485) to set up SSH with the private key.
 > A sample `~/.ssh/config` file could look like this:
@@ -69,7 +69,7 @@ I am not responsible in any way for the usage of the source code.
 > If you get a linker error, you might be missing the [libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.  
 > On Mac OS, run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
 
-## Usage/ Examples
+## 👷 Usage/ Examples
 
 1. Create a [new application](https://developer.spotify.com/dashboard/applications) on the Spotify developer dashboard
 2. Run DownOnSpot
@@ -95,7 +95,7 @@ I am not responsible in any way for the usage of the source code.
    down_on_spot.exe (search_term | track_url | album_url | playlist_url | artist_url)
    ```
 
-### Template variables
+### ⚙️ Template variables
 
 You can use the following template variables for `path` and `filename_template` in the `settings.json` file:
 
@@ -110,22 +110,24 @@ You can use the following template variables for `path` and `filename_template` 
 - %title%
 - %track%
 
-## Additional scripts
+## 🧭 Additional scripts
 
 - [Userscript to download titles from YouTube](https://gist.github.com/oSumAtrIX/6abf46e2ea25d32f4e6608c3c3cf837e)
 
-## Known issues
+## 🐞 Known issues
 
 - Slow MP3 downloads due to libmp3lame
 - Sporadic `channel error` when downloading tracks
 
-## Authors
+## 💪 Authors
 
 - [@oSumAtrIX](https://osumatrix.me/#github)
 - [@exttex](https://git.freezer.life/exttex)
 - [@breuerfelix](https://github.com/breuerfelix)
 - [@thatpix3l](https://github.com/thatpix3l)
 
-## License
+## 🔑 License
 
-[GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
+DownOnSpot is licensed under the GPLv3 licence. Please see the [licence file](LICENSE) for more information.
+[tl;dr](https://www.tldrlegal.com/license/gnu-general-public-license-v3-gpl-3) you may copy, distribute and modify ReVanced patches as long as you track changes/dates in source files.
+Any modifications to ReVanced Patches must also be made available under the GPL along with build & install instructions.
