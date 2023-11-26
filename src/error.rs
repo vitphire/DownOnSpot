@@ -1,4 +1,3 @@
-use librespot::core::Error;
 use std::fmt;
 
 #[derive(Debug, Clone)]
@@ -23,12 +22,6 @@ pub enum SpotifyError {
 	AlreadyDownloaded,
 }
 
-impl From<Error> for SpotifyError {
-	fn from(e: Error) -> Self {
-		Self::Error(e.to_string())
-	}
-}
-
 impl std::error::Error for SpotifyError {}
 impl fmt::Display for SpotifyError {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -50,7 +43,7 @@ impl fmt::Display for SpotifyError {
 			SpotifyError::ID3Error(k, e) => write!(f, "ID3 Error: {} {}", k, e),
 			SpotifyError::Reqwest(e) => write!(f, "Reqwest Error: {}", e),
 			SpotifyError::InvalidFormat => write!(f, "Invalid Format!"),
-			SpotifyError::AlreadyDownloaded => write!(f, "Already Downloaded")
+			SpotifyError::AlreadyDownloaded => write!(f, "Already Downloaded"),
 		}
 	}
 }
@@ -78,8 +71,6 @@ impl From<librespot::core::session::SessionError> for SpotifyError {
 			librespot::core::session::SessionError::AuthenticationError(_) => {
 				SpotifyError::AuthenticationError
 			}
-			librespot::core::session::SessionError::NotConnected => SpotifyError::Error("Connection error".to_string()),
-			librespot::core::session::SessionError::Packet(_) => SpotifyError::Error("Packet Error".to_string()),
 		}
 	}
 }

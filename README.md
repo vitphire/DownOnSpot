@@ -38,21 +38,36 @@ I am not responsible in any way for the usage of the source code.
 
 ## Building
 
-Clone the repository using git and change to the local repository directory:
+1. Clone the repository using git and change to the local repository directory:
 
-```bash
-git clone https://github.com/oSumAtrIX/DownOnSpot.git
-cd DownOnSpot
-```
+   ```bash
+   git clone https://github.com/oSumAtrIX/DownOnSpot.git
+   cd DownOnSpot
+   ```
 
-`Nightly Rust` is required to build this project. Install it by following [rustup.rs](https://rustup.rs) instructions.
+2. Build
 
-```bash
-cargo build --release
-```
+   ```bash
+   cargo build --release
+   ```
 
-If you get a linker error, you might need to download the [standard libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.
-On OS X, it should be enough to just run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
+> [!WARNING]
+> You need [this private SSH key](assets/free_librespot_private_key) to clone a dependency of DownOnSpot in order to use it with a free Spotify account.
+> Follow [this answer by DopeGhoti on stackexchange.com](https://unix.stackexchange.com/a/494485) to set up SSH with the private key.
+> A sample `~/.ssh/config` file could look like this:
+>
+> ```text
+> Host github.com
+>   IdentityFile ~/.ssh/free_librespot_private_key
+> ```
+
+> [!NOTE]
+> If you do not want to use `free-librespot` (i.e. if you are using a paid Spotify account), then remove the git dependency of `free-librespot`.
+> For that, replace `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` with `librespot = "0.4.2"` inside the `Cargo.toml` file.
+
+> [!WARNING]
+> If you get a linker error, you might need to download the [standard libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.
+> On Mac OS, it should be enough to just run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
 
 ## Usage/ Examples
 
@@ -68,12 +83,13 @@ Usage:
 down_on_spot.exe (search_term | track_url | album_url | playlist_url | artist_url)
 ```
 
-On OS X, the `settings.json` file is created globally for the logged in user and is located in `~/.config/down_on_spot/settings.json`.
+On Mac OS, the `settings.json` file is created globally for the logged in user and is located in `~/.config/down_on_spot/settings.json`.
 
 Apart from your Spotify username and password, you will need to login in to the Spotify developer dashboard and [create a new private application](https://developer.spotify.com/dashboard/applications). Fill in the `client_id` and `client_secret` in your `settings.json` from your newly created app.
 All the other settings should be self-explanatory, conversion from Ogg to MP3 is disabled by default.
 
-> **Note**: If you're on a free Spotify account, remember to set down the quality to 160 ("Q320" -> "Q160"). Otherwise, you'll get an "Audio Key Error" since the free account can't exceed 160kbit/s.
+> [!NOTE]
+> If you're on a free Spotify account, remember to set down the quality to 160kbit/s at maximum ("Q320" -> "Q160"). Otherwise, you'll get an "Audio Key Error" since the free account can't exceed 160kbit/s.
 
 ### Template variables
 

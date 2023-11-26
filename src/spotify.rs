@@ -28,13 +28,12 @@ impl Spotify {
 	) -> Result<Spotify, SpotifyError> {
 		// librespot
 		let credentials = Credentials::with_password(username, password);
-
-		let session = Session::new(
+		let (session, _) = Session::connect(
 			SessionConfig::default(),
+			credentials,
 			Some(Cache::new(Some(Path::new("credentials_cache")), None, None, None).unwrap()),
-		);
-
-		session.connect(credentials, true)
+			true,
+		)
 		.await?;
 
 		//aspotify
