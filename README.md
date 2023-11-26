@@ -92,7 +92,7 @@ A Spotify downloader written in Rust
    ```bash
    $ ./down_on_spot
    Usage:
-   down_on_spot.exe (search_term | track_url | album_url | playlist_url | artist_url)
+   down_on_spot.exe <search_term> | <track_url> | <album_url> | <playlist_url> | <artist_url>
    ```
 
 ### ⚙️ Template variables
