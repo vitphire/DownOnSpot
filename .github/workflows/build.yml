@@ -31,7 +31,7 @@ jobs:
       - name: Cache Rust
         uses: Swatinem/rust-cache@v2
         with:
-          prefix-key: ${{steps.rust.outputs.cachekey}}-rust
+          prefix-key: v${{steps.rust.outputs.cachekey}}-rust
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
