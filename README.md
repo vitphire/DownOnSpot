@@ -8,7 +8,7 @@ A Spotify downloader written in Rust
 
 <br>
 
-[![Build project](https://github.com/oSumAtrIX/DownOnSpot/actions/workflows/rust.yml/badge.svg)](https://github.com/oSumAtrIX/DownOnSpot/actions/workflows/rust.yml)
+[![Build project](https://github.com/oSumAtrIX/DownOnSpot/actions/workflows/build.yml/badge.svg)](https://github.com/oSumAtrIX/DownOnSpot/actions/workflows/build.yml)
 [![GitHub license](https://img.shields.io/github/license/oSumAtrIX/DownOnSpot)](https://github.com/oSumAtrIX/DownOnSpot/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/oSumAtrIX/DownOnSpot)](https://github.com/oSumAtrIX/DownOnSpot/issues)
 [![GitHub forks](https://img.shields.io/github/forks/oSumAtrIX/DownOnSpot)](https://github.com/oSumAtrIX/DownOnSpot/network)
@@ -19,11 +19,10 @@ A Spotify downloader written in Rust
 
 ## Disclaimer
 
-```text
+> [!NOTE]
 DownOnSpot was not developed for piracy.
 It is meant to be used in compliance with DMCA, Section 1201, for educational, private and fair use.
 I am not responsible in any way for the usage of the source code.
-```
 
 ## Features
 
@@ -35,6 +34,9 @@ I am not responsible in any way for the usage of the source code.
 - Convert to mp3
 - Metadata tagging
 - Simple usage over CLI
+
+> [!NOTE]
+> Free Spotify users can can't exceed 160kbit/s. Change the `quality` setting in the `settings.json` file to `Q160` or lower. If you want to download 256 or 320kbit/s, you need to use a premium account.
 
 ## Building
 
@@ -60,41 +62,42 @@ I am not responsible in any way for the usage of the source code.
 > Host github.com
 >   IdentityFile ~/.ssh/free_librespot_private_key
 > ```
-
-> [!NOTE]
-> If you do not want to use `free-librespot` (i.e. if you are using a paid Spotify account), then remove the git dependency of `free-librespot`.
-> For that, replace `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` with `librespot = "0.4.2"` inside the `Cargo.toml` file.
+>
+> If you do not want to use `free-librespot` (i.e. if you are using a paid Spotify account), replace `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` with `librespot = "0.4.2"` inside the `Cargo.toml` file.
 
 > [!WARNING]
-> If you get a linker error, you might need to download the [standard libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.
-> On Mac OS, it should be enough to just run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
+> If you get a linker error, you might be missing the [libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.  
+> On Mac OS, run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
 
 ## Usage/ Examples
 
-Running DownOnSpot once will create the default configuration file in the same directory as your shell.
+1. Create a [new application](https://developer.spotify.com/dashboard/applications) on the Spotify developer dashboard
+2. Run DownOnSpot
 
-```bash
-$ down_on_spot.exe
-Settings could not be loaded, because of the following error: IO: NotFound No such file or directory. (os error 2)...
-..but default settings have been created successfully. Edit them and run the program again.
+   ```bash
+   $ ./down_on_spot
+   Settings could not be loaded, because of the following error: IO: NotFound No such file or directory. (os error 2)...
+   ..but default settings have been created successfully. Edit them and run the program again.
+   ```
 
-$ down_on_spot.exe
-Usage:
-down_on_spot.exe (search_term | track_url | album_url | playlist_url | artist_url)
-```
-> [!NOTE]
-> On Mac OS, the `settings.json` file is created globally for the logged in user and is located in `~/.config/down_on_spot/settings.json`.  
-> On Windows, the `settings.json` file is located at `C:\Users\<user>\AppData\Roaming\down_on_spot\settings.json`.
+3. Edit the `settings.json` file
 
-Apart from your Spotify username and password, you will need to login in to the Spotify developer dashboard and [create a new private application](https://developer.spotify.com/dashboard/applications). Fill in the `client_id` and `client_secret` in your `settings.json` from your newly created app.
-All the other settings should be self-explanatory, conversion from Ogg to MP3 is disabled by default.
+   The `settings.json` file is located in the following directories:
 
-> [!NOTE]
-> If you're on a free Spotify account, remember to set down the quality to 160kbit/s at maximum ("Q320" -> "Q160"). Otherwise, you'll get an "Audio Key Error" since the free account can't exceed 160kbit/s.
+   - Windows: `C:\Users\<user>\AppData\Roaming\down_on_spot\settings.json`
+   - Unix: `~/.config/down_on_spot/settings.json`
+
+4. Now you can use DownOnSpot
+
+   ```bash
+   $ ./down_on_spot
+   Usage:
+   down_on_spot.exe (search_term | track_url | album_url | playlist_url | artist_url)
+   ```
 
 ### Template variables
 
-Following variables are available for `path` and `filename_template` in the `settings.json`:
+You can use the following template variables for `path` and `filename_template` in the `settings.json` file:
 
 - %0disc%
 - %0track%
@@ -113,8 +116,8 @@ Following variables are available for `path` and `filename_template` in the `set
 
 ## Known issues
 
-- Mp3 downloads slow due to libmp3lame
-- Downloads fail sometimes due to `channel error`
+- Slow MP3 downloads due to libmp3lame
+- Sporadic `channel error` when downloading tracks
 
 ## Authors
 
