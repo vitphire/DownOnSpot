@@ -69,7 +69,7 @@ A Spotify downloader written in Rust
 > If you get a linker error, you might be missing the [libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.  
 > On Mac OS, run `brew install lame,` provided you have [Homebrew](https://brew.sh/) installed.
 
-## 👷 Usage/ Examples
+## 🕹️ Usage
 
 1. Create a [new application](https://developer.spotify.com/dashboard/applications) on the Spotify developer dashboard
 2. Run DownOnSpot
@@ -87,7 +87,7 @@ A Spotify downloader written in Rust
    - Windows: `C:\Users\<user>\AppData\Roaming\down_on_spot\settings.json`
    - Unix: `~/.config/down_on_spot/settings.json`
 
-4. Now you can use DownOnSpot
+🎉 Now you can use DownOnSpot
 
    ```bash
    $ ./down_on_spot
