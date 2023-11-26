@@ -26,7 +26,6 @@ async fn main() {
 #[tokio::main]
 async fn main() {
 	use colored::control;
-	use std::os::windows::process;
 
 	//backwards compatibility.
 	if control::set_virtual_terminal(true).is_ok() {};

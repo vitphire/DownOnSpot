@@ -64,9 +64,7 @@ impl Downloader {
 		input: &str,
 	) -> Result<Option<Vec<SearchResult>>, SpotifyError> {
 		if let Ok(uri) = Spotify::parse_uri(input) {
-			if let Err(e) = self.add_uri(&uri).await {
-				return Err(e);
-			}
+			self.add_uri(&uri).await?;
 			Ok(None)
 		} else {
 			let results: Vec<SearchResult> = self
@@ -301,7 +299,7 @@ impl DownloaderInternal {
 			(
 				"%artist%",
 				sanitize(
-					&track
+					track
 						.artists
 						.iter()
 						.map(|a| a.name.as_str())
@@ -313,7 +311,7 @@ impl DownloaderInternal {
 			(
 				"%artists%",
 				sanitize(
-					&track
+					track
 						.artists
 						.iter()
 						.map(|a| a.name.as_str())
@@ -330,7 +328,7 @@ impl DownloaderInternal {
 			(
 				"%albumArtist%",
 				sanitize(
-					&track
+					track
 						.album
 						.artists
 						.iter()
@@ -343,7 +341,7 @@ impl DownloaderInternal {
 			(
 				"%albumArtists%",
 				sanitize(
-					&track
+					track
 						.album
 						.artists
 						.iter()
@@ -475,13 +473,13 @@ impl DownloaderInternal {
 
 	async fn find_alternative(session: &Session, track: Track) -> Result<Track, SpotifyError> {
 		for alt in track.alternatives {
-			let t = Track::get(&session, alt).await?;
+			let t = Track::get(session, alt).await?;
 			if !t.available {
 				return Ok(t);
 			}
 		}
 
-		return Err(SpotifyError::Unavailable);
+		Err(SpotifyError::Unavailable)
 	}
 
 	/// Download track by id
