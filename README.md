@@ -22,7 +22,7 @@ A Spotify downloader written in Rust
 > [!NOTE]
 > DownOnSpot was not developed for piracy.
 > It is meant to be used in compliance with DMCA, Section 1201, for educational, private and fair use.
-> I am not responsible in any way for the usage of the source code.
+> I am not responsible in any way for using the source code.
 
 ## ⭐ Features
 
@@ -67,7 +67,7 @@ A Spotify downloader written in Rust
 
 > [!WARNING]
 > If you get a linker error, you might be missing the [libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.  
-> On Mac OS, run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
+> On Mac OS, run `brew install lame,` provided you have [Homebrew](https://brew.sh/) installed.
 
 ## 👷 Usage/ Examples
 
@@ -76,7 +76,7 @@ A Spotify downloader written in Rust
 
    ```bash
    $ ./down_on_spot
-   Settings could not be loaded, because of the following error: IO: NotFound No such file or directory. (os error 2)...
+   Settings could not be loaded because of the following error: IO: NotFound No such file or directory. (os error 2)...
    ..but default settings have been created successfully. Edit them and run the program again.
    ```
 
@@ -129,5 +129,5 @@ You can use the following template variables for `path` and `filename_template` 
 ## 🔑 License
 
 DownOnSpot is licensed under the GPLv3 licence. Please see the [licence file](LICENSE) for more information.
-[tl;dr](https://www.tldrlegal.com/license/gnu-general-public-license-v3-gpl-3) you may copy, distribute and modify ReVanced patches as long as you track changes/dates in source files.
-Any modifications to ReVanced Patches must also be made available under the GPL along with build & install instructions.
+[tl;dr](https://www.tldrlegal.com/license/gnu-general-public-license-v3-gpl-3) you may copy, distribute and modify DownOnSpot as long as you track changes/dates in source files.
+Any modifications to DownOnSpot must also be made available under the GPL, along with build & install instructions.
