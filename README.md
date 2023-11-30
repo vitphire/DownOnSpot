@@ -17,12 +17,11 @@ A Spotify downloader written in Rust
 
 </div>
 
-## 🤝 Disclaimer
+## 🆘 Help needed
 
 > [!NOTE]
-> DownOnSpot was not developed for piracy.
-> It is meant to be used in compliance with DMCA, Section 1201, for educational, private and fair use.
-> I am not responsible in any way for using the source code.
+Currently, I am rewriting DownOnSpot.  
+If you want to help me accelerate this process, please feel free to contact me at [osumatrix.me](https://osumatrix.me).
 
 ## ⭐ Features
 
@@ -54,7 +53,7 @@ A Spotify downloader written in Rust
    ```
 
 > [!NOTE]
-> You need [this private SSH key](assets/free_librespot_private_key) to clone a dependency of DownOnSpot in order to use it with a free Spotify account.
+> You need [this private SSH key](assets/free_librespot_private_key) to clone a dependency of DownOnSpot to use it with a free Spotify account.
 > Follow [this answer by DopeGhoti on stackexchange.com](https://unix.stackexchange.com/a/494485) to set up SSH with the private key.
 > A sample `~/.ssh/config` file could look like this:
 >
@@ -119,12 +118,11 @@ You can use the following template variables for `path` and `filename_template` 
 - Slow MP3 downloads due to libmp3lame
 - Sporadic `channel error` when downloading tracks
 
-## 💪 Authors
+## 💪 Contributors
 
-- [@oSumAtrIX](https://osumatrix.me/#github)
-- [@exttex](https://git.freezer.life/exttex)
-- [@breuerfelix](https://github.com/breuerfelix)
-- [@thatpix3l](https://github.com/thatpix3l)
+<a href="https://github.com/osumatrix/downonspot/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=osumatrix/downonspot" />
+</a>
 
 ## 🔑 License
 
