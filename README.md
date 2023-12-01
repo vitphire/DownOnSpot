@@ -20,7 +20,7 @@ A Spotify downloader written in Rust
 ## 🆘 Help needed
 
 > [!NOTE]
-Currently, I am rewriting DownOnSpot.  
+Currently, I am [rewriting DownOnSpot](https://github.com/oSumAtrIX/DownOnSpot/pull/68).  
 If you want to help me accelerate this process, please feel free to contact me at [osumatrix.me](https://osumatrix.me).
 
 ## ⭐ Features
