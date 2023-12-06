@@ -66,7 +66,7 @@ If you want to help me accelerate this process, please feel free to contact me a
 
 > [!WARNING]
 > If you get a linker error, you might be missing the [libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.  
-> On Mac OS, run `brew install lame,` provided you have [Homebrew](https://brew.sh/) installed.
+> On Mac OS, run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
 
 ## 🕹️ Usage
 
