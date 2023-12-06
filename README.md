@@ -35,7 +35,7 @@ If you want to help me accelerate this process, please feel free to contact me a
 - ✅ Simple CLI interface
 
 > [!NOTE]
-> Free Spotify users can can't exceed 160kbit/s. Change the `quality` setting in the `settings.json` file to `Q160` or lower. If you want to download 256 or 320kbit/s, you need to use a premium account.
+> Free Spotify users can not exceed 160kbit/s. Change the `quality` setting in the `settings.json` file to `Q160` or lower. If you want to download 256 or 320kbit/s, you need to use a premium account.
 
 ## ⚒️ Building
 
