@@ -46,7 +46,13 @@ If you want to help me accelerate this process, please feel free to contact me a
    cd DownOnSpot
    ```
 
-2. Build
+2. Install dependencies
+
+   If you are on Linux, make sure you have the `libasound2-dev` package installed.  
+   Additionally, you need the [libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.  
+   On Mac OS, run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
+
+3. Build
 
    ```bash
    cargo build --release
@@ -63,10 +69,6 @@ If you want to help me accelerate this process, please feel free to contact me a
 > ```
 >
 > If you do not want to use `free-librespot` (i.e. if you are using a paid Spotify account), replace `git = "ssh://git@github.com/oSumAtrIX/free-librespot.git"` with `librespot = "0.4.2"` inside the `Cargo.toml` file.
-
-> [!WARNING]
-> If you get a linker error, you might be missing the [libmp3lame](https://www.rarewares.org/mp3-lame-libraries.php#libmp3lame) library.  
-> On Mac OS, run `brew install lame`, provided you have [Homebrew](https://brew.sh/) installed.
 
 ## 🕹️ Usage
 
