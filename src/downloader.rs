@@ -474,7 +474,7 @@ impl DownloaderInternal {
 	async fn find_alternative(session: &Session, track: Track) -> Result<Track, SpotifyError> {
 		for alt in track.alternatives {
 			let t = Track::get(session, alt).await?;
-			if !t.available {
+			if t.available {
 				return Ok(t);
 			}
 		}
