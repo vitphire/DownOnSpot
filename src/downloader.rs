@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use async_std::channel::{bounded, Receiver, Sender};
 use async_stream::try_stream;
 use chrono::NaiveDate;
@@ -8,7 +9,7 @@ use librespot::core::audio_key::AudioKey;
 use librespot::core::session::Session;
 use librespot::core::spotify_id::SpotifyId;
 use librespot::metadata::{FileFormat, Metadata, Track};
-use sanitize_filename::sanitize;
+use sanitize_filename::sanitize_with_options;
 use serde::{Deserialize, Serialize};
 use std::io::Read;
 use std::path::{Path, PathBuf};
@@ -241,7 +242,7 @@ impl DownloaderInternal {
 						queue.remove(0);
 					}
 				}
-			};
+			}
 		}
 	}
 
@@ -272,6 +273,13 @@ impl DownloaderInternal {
 		}
 	}
 
+	fn sanitize<S: AsRef<str>>(name: S) -> String {
+		sanitize_with_options(name, sanitize_filename::Options {
+			replacement: "_",
+			..Default::default()
+		})
+	}
+
 	// Wrapper for downloading and tagging
 	async fn download_job(
 		&self,
@@ -295,10 +303,10 @@ impl DownloaderInternal {
 			.data;
 
 		let tags: Vec<(&str, String)> = vec![
-			("%title%", sanitize(&track.name)),
+			("%title%", Self::sanitize(&track.name)),
 			(
 				"%artist%",
-				sanitize(
+				Self::sanitize(
 					track
 						.artists
 						.iter()
@@ -310,7 +318,7 @@ impl DownloaderInternal {
 			),
 			(
 				"%artists%",
-				sanitize(
+				Self::sanitize(
 					track
 						.artists
 						.iter()
@@ -324,10 +332,10 @@ impl DownloaderInternal {
 			("%disc%", track.disc_number.to_string()),
 			("%0disc%", format!("{:02}", track.disc_number)),
 			("%id%", job.track_id.to_string()),
-			("%album%", sanitize(&track.album.name)),
+			("%album%", Self::sanitize(&track.album.name)),
 			(
 				"%albumArtist%",
-				sanitize(
+				Self::sanitize(
 					track
 						.album
 						.artists
@@ -340,7 +348,7 @@ impl DownloaderInternal {
 			),
 			(
 				"%albumArtists%",
-				sanitize(
+				Self::sanitize(
 					track
 						.album
 						.artists
@@ -372,7 +380,7 @@ impl DownloaderInternal {
 			job.id,
 		)
 		.await?;
-		// Post processing
+		// Post-processing
 		self.event_tx
 			.send(Message::UpdateState(job.id, DownloadState::Post))
 			.await
@@ -511,7 +519,7 @@ impl DownloaderInternal {
 					break 'outer;
 				}
 			}
-			// Fallback to worser quality
+			// Fallback to worse quality
 			match quality.fallback() {
 				Some(q) => quality = q,
 				None => break,
@@ -593,7 +601,7 @@ impl DownloaderInternal {
 		try_stream! {
 			let mut file = File::create(path).await?;
 			let mut decrypted = AudioDecrypt::new(key, encrypted);
-			// Skip (i guess encrypted shit)
+			// Skip (I guess encrypted shit)
 			let mut skip: [u8; 0xa7] = [0; 0xa7];
 			let mut decrypted = tokio::task::spawn_blocking(move || {
 				match decrypted.read_exact(&mut skip) {
@@ -631,7 +639,7 @@ impl DownloaderInternal {
 		try_stream! {
 			let mut file = File::create(path).await?;
 			let mut decrypted = AudioDecrypt::new(key, encrypted);
-			// Skip (i guess encrypted shit)
+			// Skip (I guess encrypted shit)
 			let mut skip: [u8; 0xa7] = [0; 0xa7];
 			let decrypted = tokio::task::spawn_blocking(move || {
 				match decrypted.read_exact(&mut skip) {
@@ -848,15 +856,16 @@ pub enum Quality {
 	Q96,
 }
 
-impl ToString for Quality {
-	fn to_string(&self) -> String {
-		match self {
+impl Display for Quality {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		let str = match self {
 			Quality::Q320 => "320kbps",
 			Quality::Q256 => "256kbps",
 			Quality::Q160 => "160kbps",
 			Quality::Q96 => "96kbps",
 		}
-		.to_string()
+			.to_string();
+		write!(f, "{}", str)
 	}
 }
 
